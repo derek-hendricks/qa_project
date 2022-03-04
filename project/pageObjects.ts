@@ -11,12 +11,19 @@ export class Bestbuy extends BasePage {
     passwordSignIn: By = By.xpath('//input[@type="password"]');
     loginButton: By = By.xpath('//button[@type="submit"]');
     closePopup: By = By.xpath('//button[@class="c-close-icon c-modal-close-icon"]');
+    americaLink: By = By.css('.us-link');
+    saveItemButton: By = By.css('button.save-for-later-save');
+    searchButton: By = By.css('.header-search-button');
+    compareCheckbox: By = By.css('.c-checkbox-input')
+    comparison: By = By.css('.comparison');
+    skuItem: By = By.xpath('//*[@class="sku-item"]');
     
+
     constructor() {
         super({url: "https://www.bestbuy.com/"});
     }
     async search(searchTerm: string) {
-        return this.setInput(this.searchBar, `${searchTerm}\n`)
+        return await this.setInput(this.searchBar, `${searchTerm}`);
     }
     async getResults () {
         return this.getText(this.results)
