@@ -1,4 +1,3 @@
-import { until } from "selenium-webdriver";
 import { Bestbuy } from "./pageObjects";
 
 const bestbuy = new Bestbuy;
@@ -11,7 +10,7 @@ afterAll(async () => {
 test("Can get to log in page", async () => {
     await bestbuy.navigate();
     // uncomment when running outside of US
-    // await bestbuy.click(bestbuy.americaLink);
+    await bestbuy.click(bestbuy.americaLink);
     await bestbuy.closeWindow();
     await bestbuy.openMenu();
     await bestbuy.clickSignIn();
@@ -37,16 +36,15 @@ test("Can add to cart", async () => {
 
 test("Can find search results for an item entered in the search bar ", async () => {
     await bestbuy.navigate();
-    await bestbuy.click(bestbuy.searchBar);
     await bestbuy.search("xbox");
     await bestbuy.clickSearch();
     let searchResults = await bestbuy.getElements(bestbuy.skuItem);
+    console.log(searchResults.length, 'searchResults.length')
     expect(searchResults.length).toBeGreaterThanOrEqual(1);
 });
 
 test("Can save an item from the search results", async () => {
     await bestbuy.navigate();
-    await bestbuy.click(bestbuy.searchBar);
     await bestbuy.search("xbox");
     await bestbuy.clickSearch();
     await bestbuy.click(bestbuy.saveItemButton);
@@ -56,10 +54,11 @@ test("Can save an item from the search results", async () => {
 
 test("Can compare an item from the search results", async () => {
     await bestbuy.navigate();
-    await bestbuy.click(bestbuy.searchBar);
-    await bestbuy.search("xbox");
+    await bestbuy.search("Xbox");
     await bestbuy.clickSearch();
     await bestbuy.click(bestbuy.compareCheckbox);
     expect(await bestbuy.getText(bestbuy.comparison)).toContain("Compare");
+    await bestbuy.click(bestbuy.compareButton);
+    expect(await bestbuy.getText(bestbuy.compareResults)).toContain("Xbox");   
 });
 

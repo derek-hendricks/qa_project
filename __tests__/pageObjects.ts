@@ -22,6 +22,8 @@ export class Bestbuy extends BasePage {
     saveItemButton: By = By.css('.save-for-later-save');
     compareCheckbox: By = By.css('.c-checkbox-input')
     comparison: By = By.css('.compare-heading');
+    compareButton: By = By.css('.compare-button');
+    compareResults: By = By.css('.compareAppContainer');
     skuItem: By = By.xpath('//*[@class="sku-item"]');
     savedItems: By = By.css('.savedItems-button');
     savedItemsResults: By = By.css('.utility-flyout-saved-items .sku-card-product-title');
@@ -30,22 +32,22 @@ export class Bestbuy extends BasePage {
         super({url: "https://www.bestbuy.com/"});
     }
     async search(searchTerm: string) {
-        return await this.setInput(this.searchBar, `${searchTerm}`);
+        return this.setInput(this.searchBar, `${searchTerm}`);
     }
     async clickSearch () {
         return this.click(this.searchButton)
     }
     async getResults () {
-        return await this.getText(this.results)
+        return this.getText(this.results)
     }
     async openMenu () {
-        return await this.click(this.userMenu)
+        return this.click(this.userMenu)
     }
     async clickSignIn () {
-        return await this.click(this.signIn)
+        return this.click(this.signIn)
     }
     async closeWindow () {
-        return await this.click(this.closePopup)
+        return this.click(this.closePopup)
     }
     async clickMenu () {
         return this.click(this.menu)

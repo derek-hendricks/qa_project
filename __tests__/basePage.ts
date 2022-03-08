@@ -32,23 +32,20 @@ export class BasePage {
     }
     async getElements(elementBy: By): Promise<WebElement[]> {
         await this.driver.wait(until.elementsLocated(elementBy));
-        let elements = await this.driver.findElements(elementBy);
-        await this.driver.wait(until.elementIsVisible(elements[0]));
-        return elements;
+        return this.driver.findElements(elementBy);
     }
     async click(elementBy: By): Promise<void> {
-        return await (await this.getElement(elementBy)).click();
+        return (await this.getElement(elementBy)).click();
     }
     async setInput(elementBy: By, keys: any): Promise<void> {
         let input = await this.getElement(elementBy);
         await input.clear();
-        return await input.sendKeys(keys);
-       // return await this.driver.executeScript("document.querySelector('.header-search-button').click();");
+        return input.sendKeys(keys);
     }
     async getText(elementBy: By): Promise<string> {
-        return(await this.getElement(elementBy)).getText()
+        return (await this.getElement(elementBy)).getText()
     }
     async getAttribute(elementBy: By, attribute: string): Promise<string> {
-        return(await this.getElement(elementBy)).getAttribute(attribute)
+        return (await this.getElement(elementBy)).getAttribute(attribute)
     }
 }
