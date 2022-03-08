@@ -32,7 +32,11 @@ export class BasePage {
     }
     async getElements(elementBy: By): Promise<WebElement[]> {
         await this.driver.wait(until.elementsLocated(elementBy));
-        return this.driver.findElements(elementBy);
+        let elements = await this.driver.findElements(elementBy); 
+        (elements).forEach(async(el) => {
+          await this.driver.wait(until.elementIsVisible(el));
+        });
+        return elements;
     }
     async click(elementBy: By): Promise<void> {
         return (await this.getElement(elementBy)).click();

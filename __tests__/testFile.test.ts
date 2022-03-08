@@ -9,8 +9,8 @@ afterAll(async () => {
 //if we run a log in too many times we get a password error -md
 test("Can get to log in page", async () => {
     await bestbuy.navigate();
-    // uncomment when running outside of US
-    await bestbuy.click(bestbuy.americaLink);
+    // when running outside of US
+    await bestbuy.goToAmericanSite();
     await bestbuy.closeWindow();
     await bestbuy.openMenu();
     await bestbuy.clickSignIn();
@@ -39,16 +39,15 @@ test("Can find search results for an item entered in the search bar ", async () 
     await bestbuy.search("xbox");
     await bestbuy.clickSearch();
     let searchResults = await bestbuy.getElements(bestbuy.skuItem);
-    console.log(searchResults.length, 'searchResults.length')
     expect(searchResults.length).toBeGreaterThanOrEqual(1);
 });
 
 test("Can save an item from the search results", async () => {
     await bestbuy.navigate();
-    await bestbuy.search("xbox");
+    await bestbuy.search("Xbox");
     await bestbuy.clickSearch();
-    await bestbuy.click(bestbuy.saveItemButton);
-    await bestbuy.click(bestbuy.savedItems);
+    await bestbuy.clickSaveItem();
+    await bestbuy.viewSavedItems();
     expect(await bestbuy.getText(bestbuy.savedItemsResults)).toContain("Xbox");
 });
 
@@ -56,9 +55,9 @@ test("Can compare an item from the search results", async () => {
     await bestbuy.navigate();
     await bestbuy.search("Xbox");
     await bestbuy.clickSearch();
-    await bestbuy.click(bestbuy.compareCheckbox);
+    await bestbuy.clickCompareCheckbox();
     expect(await bestbuy.getText(bestbuy.comparison)).toContain("Compare");
-    await bestbuy.click(bestbuy.compareButton);
+    await bestbuy.viewComparedResults();
     expect(await bestbuy.getText(bestbuy.compareResults)).toContain("Xbox");   
 });
 

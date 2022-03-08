@@ -1,5 +1,5 @@
-import {By} from "selenium-webdriver"
-import {BasePage} from "./basePage"
+import { By } from "selenium-webdriver"
+import { BasePage } from "./basePage"
 
 export class Bestbuy extends BasePage {
     searchBar: By = By.className("search-input");
@@ -27,47 +27,70 @@ export class Bestbuy extends BasePage {
     skuItem: By = By.xpath('//*[@class="sku-item"]');
     savedItems: By = By.css('.savedItems-button');
     savedItemsResults: By = By.css('.utility-flyout-saved-items .sku-card-product-title');
-    
+
     constructor() {
-        super({url: "https://www.bestbuy.com/"});
+        super({ url: "https://www.bestbuy.com/" });
     }
     async search(searchTerm: string) {
         return this.setInput(this.searchBar, `${searchTerm}`);
     }
-    async clickSearch () {
+    async clickSearch() {
         return this.click(this.searchButton)
     }
-    async getResults () {
+    async getResults() {
         return this.getText(this.results)
     }
-    async openMenu () {
+    async openMenu() {
         return this.click(this.userMenu)
     }
-    async clickSignIn () {
+    async clickSignIn() {
         return this.click(this.signIn)
     }
-    async closeWindow () {
+    async closeWindow() {
         return this.click(this.closePopup)
     }
-    async clickMenu () {
+    async clickMenu() {
         return this.click(this.menu)
     }
-    async clickAppliances () {
+    async clickAppliances() {
         return this.click(this.appliances)
     }
-    async clickAllAppliances () {
+    async clickAllAppliances() {
         return this.click(this.allAppliances)
     }
-    async appliancesResults () {
+    async appliancesResults() {
         return this.getText(this.appliancePage)
     }
-    async clickAddToCart () {
+    async clickAddToCart() {
         return this.click(this.addToCartButton)
     }
-    async clickGoToCart () {
+    async clickGoToCart() {
         return this.click(this.cartButton)
     }
-    async viewCart () {
+    async viewCart() {
         return this.getText(this.cartResults)
     }
+    async viewComparedResults() {
+        return this.click(this.compareButton)
+    }
+    async clickCompareCheckbox(checkboxSelector?: By) {
+        if (checkboxSelector) {
+            return this.click(checkboxSelector);
+        }
+        return this.click(this.compareCheckbox)
+    }
+    async clickSaveItem() {
+        return this.click(this.saveItemButton);
+    }
+    async viewSavedItems() {
+        return this.click(this.savedItems);
+    }
+    async goToAmericanSite() {
+        let countryLinks = await this.driver.findElements(this.americaLink); 
+        if (countryLinks.length > 0) {
+           return this.click(this.americaLink);
+        }
+    }
+  
+
 }
