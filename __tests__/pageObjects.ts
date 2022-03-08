@@ -18,7 +18,6 @@ export class Bestbuy extends BasePage {
     allAppliances: By = By.xpath('//a[@data-lid="ubr_app_dept"]');
     appliancePage: By = By.xpath('//div[@class="vn-panel col-xs-6 vn-panel-1"]');
     cartResults: By = By.xpath('//div[@class="populated-cart"]');
-
     americaLink: By = By.css('.us-link');
     saveItemButton: By = By.css('.save-for-later-save');
     compareCheckbox: By = By.css('.c-checkbox-input')
