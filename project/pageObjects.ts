@@ -1,4 +1,4 @@
-import {By, WebElement} from "selenium-webdriver"
+import {By} from "selenium-webdriver"
 import {BasePage} from "./basePage"
 
 export class Bestbuy extends BasePage {
@@ -18,7 +18,6 @@ export class Bestbuy extends BasePage {
     comparison: By = By.css('.comparison');
     skuItem: By = By.xpath('//*[@class="sku-item"]');
     
-
     constructor() {
         super({url: "https://www.bestbuy.com/"});
     }
@@ -26,15 +25,15 @@ export class Bestbuy extends BasePage {
         return await this.setInput(this.searchBar, `${searchTerm}`);
     }
     async getResults () {
-        return this.getText(this.results)
+        return await this.getText(this.results)
     }
     async openMenu () {
-        return this.click(this.userMenu)
+        return await this.click(this.userMenu)
     }
     async clickSignIn () {
-        return this.click(this.signIn)
+        return await this.click(this.signIn)
     }
     async closeWindow () {
-        return this.click(this.closePopup)
+        return await this.click(this.closePopup)
     }
 }

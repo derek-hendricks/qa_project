@@ -1,6 +1,4 @@
 import { until, WebElement } from "selenium-webdriver";
-import { Driver } from "selenium-webdriver/chrome";
-import { elementsLocated } from "selenium-webdriver/lib/until";
 import { Bestbuy } from "./pageObjects";
 
 const bestbuy = new Bestbuy;
