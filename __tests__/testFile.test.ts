@@ -28,4 +28,6 @@ test ("Can do a search", async () => {
 })
 test ("Can add to cart", async () => {
     await bestbuy.clickAddToCart();
+    await bestbuy.clickGoToCart();
+    expect (await bestbuy.viewCart()).toContain("MacBook")
 })

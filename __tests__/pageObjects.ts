@@ -17,6 +17,7 @@ export class Bestbuy extends BasePage {
     appliances: By = By.xpath('//button[@data-id="node-197"]');
     allAppliances: By = By.xpath('//a[@data-lid="ubr_app_dept"]');
     appliancePage: By = By.xpath('//div[@class="vn-panel col-xs-6 vn-panel-1"]');
+    cartResults: By = By.xpath('//div[@class="populated-cart"]');
 
     constructor() {
         super({url: "https://www.bestbuy.com/"});
@@ -54,5 +55,10 @@ export class Bestbuy extends BasePage {
     async clickAddToCart () {
         return this.click(this.addToCartButton)
     }
-
+    async clickGoToCart () {
+        return this.click(this.cartButton)
+    }
+    async viewCart () {
+        return this.getText(this.cartResults)
+    }
 }
