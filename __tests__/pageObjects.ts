@@ -1,4 +1,4 @@
-import {By, WebElement} from "selenium-webdriver"
+import {By} from "selenium-webdriver"
 import {BasePage} from "./basePage"
 
 export class Bestbuy extends BasePage {
@@ -19,26 +19,34 @@ export class Bestbuy extends BasePage {
     appliancePage: By = By.xpath('//div[@class="vn-panel col-xs-6 vn-panel-1"]');
     cartResults: By = By.xpath('//div[@class="populated-cart"]');
 
+    americaLink: By = By.css('.us-link');
+    saveItemButton: By = By.css('.save-for-later-save');
+    compareCheckbox: By = By.css('.c-checkbox-input')
+    comparison: By = By.css('.compare-heading');
+    skuItem: By = By.xpath('//*[@class="sku-item"]');
+    savedItems: By = By.css('.savedItems-button');
+    savedItemsResults: By = By.css('.utility-flyout-saved-items .sku-card-product-title');
+    
     constructor() {
         super({url: "https://www.bestbuy.com/"});
     }
     async search(searchTerm: string) {
-        return this.setInput(this.searchBar, `${searchTerm}\n`)
+        return await this.setInput(this.searchBar, `${searchTerm}`);
     }
     async clickSearch () {
         return this.click(this.searchButton)
     }
     async getResults () {
-        return this.getText(this.results)
+        return await this.getText(this.results)
     }
     async openMenu () {
-        return this.click(this.userMenu)
+        return await this.click(this.userMenu)
     }
     async clickSignIn () {
-        return this.click(this.signIn)
+        return await this.click(this.signIn)
     }
     async closeWindow () {
-        return this.click(this.closePopup)
+        return await this.click(this.closePopup)
     }
     async clickMenu () {
         return this.click(this.menu)
