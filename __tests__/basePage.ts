@@ -1,55 +1,65 @@
-import {Builder, By, Capabilities, until, WebDriver, WebElement} from "selenium-webdriver";
+import { Builder, By, Capabilities, until, WebDriver, WebElement } from "selenium-webdriver";
 const chromedriver = require("chromedriver")
 
 interface Options {
-    driver?:WebDriver;
-    url?: string;
+  driver?: WebDriver;
+  url?: string;
 }
 
 export class BasePage {
-    driver: WebDriver;
-    url: string;
+  driver: WebDriver;
+  url: string;
 
-    constructor(options?: Options) {
-        if (options && options.driver) this.driver = options.driver;
-        else 
-        this.driver = new Builder() .withCapabilities(Capabilities.chrome()).build()
-        if(options && options.url) this.url = options.url
+  constructor(options?: Options) {
+    if (options && options.driver) this.driver = options.driver;
+    else
+      this.driver = new Builder().withCapabilities(Capabilities.chrome()).build()
+    if (options && options.url) this.url = options.url
+  }
+  async navigate(url?: string): Promise<void> {
+    if (url) return await this.driver.get(url);
+    else if (this.url) return await this.driver.get(this.url)
+    else
+      return Promise.reject(
+        "BasePage.navigate() needs a url defined on the page objects, or one passed in."
+      );
+  }
+  async getElement(elementBy: By): Promise<WebElement> {
+    await this.driver.wait(until.elementLocated(elementBy));
+    let element = await this.driver.findElement(elementBy);
+    await this.driver.wait(until.elementIsVisible(element));
+    return element;
+  }
+  async getElements(elementBy: By): Promise<WebElement[]> {
+    await this.driver.wait(until.elementsLocated(elementBy));
+    let elements = await this.driver.findElements(elementBy);
+    (elements).forEach(async (el) => {
+      await this.driver.wait(until.elementIsVisible(el));
+    });
+    return elements;
+  }
+  async click(elementBy: By): Promise<void> {
+    return (await this.getElement(elementBy)).click();
+  }
+  async clickIfExists(elementBy: By): Promise<void> {
+    let countryLinks = await this.driver.findElements(elementBy);
+    if (countryLinks.length > 0) {
+      return this.click(elementBy);
     }
-    async navigate(url?: string): Promise<void> {
-        if (url) return await this.driver.get(url);
-        else if (this.url) return await this.driver.get(this.url)
-        else
-        return Promise.reject(
-            "BasePage.navigate() needs a url defined on the page objects, or one passed in."
-        );
-    }
-    async getElement(elementBy: By): Promise<WebElement> {
-        await this.driver.wait(until.elementLocated(elementBy));
-        let element = await this.driver.findElement(elementBy);
-        await this.driver.wait(until.elementIsVisible(element));
-        return element;
-    }
-    async getElements(elementBy: By): Promise<WebElement[]> {
-        await this.driver.wait(until.elementsLocated(elementBy));
-        let elements = await this.driver.findElements(elementBy); 
-        (elements).forEach(async(el) => {
-          await this.driver.wait(until.elementIsVisible(el));
-        });
-        return elements;
-    }
-    async click(elementBy: By): Promise<void> {
-        return (await this.getElement(elementBy)).click();
-    }
-    async setInput(elementBy: By, keys: any): Promise<void> {
-        let input = await this.getElement(elementBy);
-        await input.clear();
-        return input.sendKeys(keys);
-    }
-    async getText(elementBy: By): Promise<string> {
-        return (await this.getElement(elementBy)).getText()
-    }
-    async getAttribute(elementBy: By, attribute: string): Promise<string> {
-        return (await this.getElement(elementBy)).getAttribute(attribute)
-    }
+  }
+  async executeScriptclick(elementBy: By): Promise<void> {
+    let elementToClick: WebElement = await this.getElement(elementBy);
+    return this.driver.executeScript("arguments[0].click();", elementToClick);
+  }
+  async setInput(elementBy: By, keys: any): Promise<void> {
+    let input = await this.getElement(elementBy);
+    await input.clear();
+    return input.sendKeys(keys);
+  }
+  async getText(elementBy: By): Promise<string> {
+    return (await this.getElement(elementBy)).getText()
+  }
+  async getAttribute(elementBy: By, attribute: string): Promise<string> {
+    return (await this.getElement(elementBy)).getAttribute(attribute)
+  }
 }
