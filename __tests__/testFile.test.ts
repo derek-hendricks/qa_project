@@ -34,14 +34,6 @@ test("Can add to cart", async () => {
   expect(await bestbuy.viewCart()).toContain("MacBook")
 })
 
-test("Can find search results for an item entered in the search bar ", async () => {
-  await bestbuy.navigate();
-  await bestbuy.search("xbox");
-  await bestbuy.clickSearch();
-  let searchResults = await bestbuy.getElements(bestbuy.skuItem);
-  expect(searchResults.length).toBeGreaterThanOrEqual(1);
-});
-
 test("Can save an item from the search results", async () => {
   await bestbuy.navigate();
   await bestbuy.search("Xbox");
