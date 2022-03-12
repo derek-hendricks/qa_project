@@ -5,16 +5,20 @@ const bestbuy = new Bestbuy;
 afterAll(async () => {
   await bestbuy.driver.quit();
 });
-//will input log in test before presentation -md
-//if we run a log in too many times we get a password error -md
-test("Can get to log in page", async () => {
+//caution: if we run log in too many times we get a password error
+/*test("Can login and logout of an account", async () => {
   await bestbuy.navigate();
   // when running outside of US
   await bestbuy.goToAmericanSite();
-  await bestbuy.closeWindow();
+  //await bestbuy.closeWindow();
   await bestbuy.openMenu();
   await bestbuy.clickSignIn();
-})
+  await bestbuy.email("qa_group2@yahoo.com")
+  await bestbuy.password("PleaseWork!")
+  await bestbuy.confirmLogin();
+  await bestbuy.openMenu();
+  await bestbuy.clickLogout();
+})*/
 test("can use menu categories", async () => {
   await bestbuy.navigate();
   await bestbuy.clickMenu();
@@ -24,14 +28,19 @@ test("can use menu categories", async () => {
 })
 test("Can do a search", async () => {
   await bestbuy.navigate();
-  await bestbuy.search("macbook");
+  await bestbuy.search("sims 4");
   await bestbuy.clickSearch();
-  expect(await bestbuy.getResults()).toContain("Apple")
+  expect(await bestbuy.getResults()).toContain("The Sims 4")
 })
 test("Can add to cart", async () => {
   await bestbuy.clickAddToCart();
   await bestbuy.clickGoToCart();
-  expect(await bestbuy.viewCart()).toContain("MacBook")
+  expect(await bestbuy.viewCart()).toContain("The Sims 4")
+})
+test ("can open checkout page", async () => {
+  await bestbuy.clickCheckOut();
+  await bestbuy.clickContinueAsGuest();
+  expect (await bestbuy.checkOutResults()).toContain("The Sims 4")
 })
 
 test("Can save an item from the search results", async () => {
