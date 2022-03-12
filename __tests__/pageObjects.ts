@@ -3,16 +3,18 @@ import { BasePage } from "./basePage"
 
 export class Bestbuy extends BasePage {
   searchBar: By = By.className("search-input");
-  results: By = By.xpath('//div[@class="app-container lv"]');
+  results: By = By.xpath('//div[@aria-labelledby="page-results-heading"]');
   searchButton: By = By.xpath('//button[@class="header-search-button"]');
   userMenu: By = By.xpath('//button[@class="c-button-unstyled plButton account-button d-flex justify-content-center align-items-center"]');
   signIn: By = By.xpath('//a[@class="c-button c-button-secondary c-button-sm sign-in-btn"]');
   emailSignIn: By = By.xpath('//input[@type="email"]');
   passwordSignIn: By = By.xpath('//input[@type="password"]');
   loginButton: By = By.xpath('//button[@type="submit"]');
+  logoutButton: By = By.id("logout-button");
   closePopup: By = By.xpath('//button[@class="c-close-icon c-modal-close-icon"]');
   addToCartButton: By = By.className("fulfillment-add-to-cart-button");
   cartButton: By = By.xpath('//div[@class="go-to-cart-button"]');
+  cartIcon: By = By.xpath('//div[@class="cart-icon"]');
   menu: By = By.xpath('//button[@class="c-button-unstyled hamburger-menu-button"]');
   appliances: By = By.xpath('//button[@data-id="node-197"]');
   allAppliances: By = By.xpath('//a[@data-lid="ubr_app_dept"]');
@@ -29,6 +31,9 @@ export class Bestbuy extends BasePage {
   skuItem: By = By.xpath('//*[@class="sku-item"]');
   savedItems: By = By.css('.savedItems-button');
   savedItemsResults: By = By.css('.utility-flyout-saved-items .sku-card-product-title');
+  checkOutButton: By = By.xpath('//div[@class="checkout-buttons__checkout"]');
+  checkOutPage: By = By.xpath('//div[@class="order-summary__bd"]');
+  continueAsGuest: By = By.xpath('//button[@class="c-button c-button-secondary c-button-lg cia-guest-content__continue guest"]');
 
   constructor() {
     super({ url: "https://www.bestbuy.com/" });
@@ -67,7 +72,7 @@ export class Bestbuy extends BasePage {
     return this.click(this.addToCartButton)
   }
   async clickGoToCart() {
-    return this.click(this.cartButton)
+    return this.click(this.cartIcon)
   }
   async viewCart() {
     return this.getText(this.cartResults)
@@ -89,5 +94,26 @@ export class Bestbuy extends BasePage {
   }
   async goToAmericanSite() {
     return this.clickIfExists(this.americaLink);
+  }
+  async clickCheckOut () {
+    return this.click(this.checkOutButton)
+  }
+  async clickContinueAsGuest () {
+    return this.click(this.continueAsGuest)
+  }
+  async checkOutResults () {
+    return this.getText(this.checkOutPage)
+  }
+  async email (emailInput: string) {
+    return this.setInput(this.emailSignIn, `${emailInput}\n`)
+  }
+  async password (passwordInput: string) {
+    return this.setInput(this.passwordSignIn, `${passwordInput}\n`)
+  }
+  async confirmLogin () {
+    return this.click(this.loginButton)
+  }
+  async clickLogout () {
+    return this.click(this.logoutButton)
   }
 }
